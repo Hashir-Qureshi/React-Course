@@ -41,3 +41,19 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(ProtectedRoutes);
+
+for (var x in common) {
+  console.log(x + "=" + common[x]);
+  if (x === "image") {
+    let z = common.image;
+    for (var y in z) {
+      console.log(x + " = " + y + " : " + z[y]);
+    }
+  }
+  if (x === "_links") {
+    let z = common._links.self;
+    for (var y in z) {
+      console.log(x + " = " + y + " : " + z[y]);
+    }
+  }
+}
