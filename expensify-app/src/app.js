@@ -11,16 +11,16 @@ import { firebase } from "./firebase/firebase";
 
 const store = configureStore();
 
-const jsx = (
+const JSX = props => (
   <Provider store={store}>
-    <AppRouter />
+    <AppRouter {...props} />
   </Provider>
 );
 
 let hasRendered = false;
-const renderApp = () => {
+const renderApp = status => {
   if (!hasRendered) {
-    ReactDOM.render(jsx, document.getElementById("app"));
+    ReactDOM.render(<JSX isStudent={status} />, document.getElementById("app"));
     hasRendered = true;
   }
 };
@@ -30,14 +30,14 @@ firebase.auth().onAuthStateChanged(user => {
   if (user) {
     store.dispatch(login(user.uid));
     store.dispatch(startSetExpenses()).then(() => {
-      renderApp();
+      renderApp(true);
       if (history.location.pathname === "/") {
         history.push("/dashboard");
       }
     });
   } else {
     store.dispatch(logout());
-    renderApp();
+    renderApp(false);
     history.push("/");
   }
 });
